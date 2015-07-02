@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <h1><h:outputText value="List"/></h1>
+            <p:dataTable id="table" value="#{deleteController.users}" var="item" selectionMode="single" selection="#{deleteController.user}" rowKey="#{item.id}">
+                <p:ajax event="rowSelect" listener="#{deleteController.delete(event)}" update="table"/>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:outputText value="#{item.name}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton value="Add" actionListener="#{deleteController.prepare(event)}" oncomplete="PF('var').show();" update=":varForm"/>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="var">
+            <h:form id="varForm">
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Name:" for="name" />
+                    <p:inputText id="name" value="#{deleteController.user.name}" title="Name" />
+                    <f:facet name="footer">
+                        <p:commandButton value="save" actionListener="#{deleteController.saveUser(event)}" update=":form" oncomplete="PF('var').hide();"/>
+                    </f:facet>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+
